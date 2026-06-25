@@ -52,7 +52,12 @@
       }
 
       body {
-        font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-family:
+          "Inter",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
         background-color: var(--bg);
         background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
         background-size: 28px 28px;
@@ -314,10 +319,21 @@
       }
 
       @media (max-width: 600px) {
-        .inputs { flex-direction: column; align-items: stretch; }
-        .controls-footer { flex-direction: column; align-items: stretch; }
-        .btn { width: 100%; justify-content: center; }
-        .palette-display { grid-template-columns: repeat(2, 1fr); }
+        .inputs {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .controls-footer {
+          flex-direction: column;
+          align-items: stretch;
+        }
+        .btn {
+          width: 100%;
+          justify-content: center;
+        }
+        .palette-display {
+          grid-template-columns: repeat(2, 1fr);
+        }
       }
     </style>
   </head>
@@ -387,7 +403,7 @@
       }
 
       function rgbToHex(r, g, b) {
-        return "#" + [r, g, b].map(x => Math.max(0, Math.min(255, x)).toString(16).padStart(2, "0")).join("");
+        return "#" + [r, g, b].map((x) => Math.max(0, Math.min(255, x)).toString(16).padStart(2, "0")).join("");
       }
 
       function rgbObjToHex(rgbObj) {
@@ -395,9 +411,14 @@
       }
 
       function rgbToHsl(r, g, b) {
-        r /= 255; g /= 255; b /= 255;
-        const max = Math.max(r, g, b), min = Math.min(r, g, b);
-        let h, s, l = (max + min) / 2;
+        r /= 255;
+        g /= 255;
+        b /= 255;
+        const max = Math.max(r, g, b),
+          min = Math.min(r, g, b);
+        let h,
+          s,
+          l = (max + min) / 2;
 
         if (max === min) {
           h = s = 0;
@@ -405,9 +426,15 @@
           const d = max - min;
           s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
           switch (max) {
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
+            case r:
+              h = (g - b) / d + (g < b ? 6 : 0);
+              break;
+            case g:
+              h = (b - r) / d + 2;
+              break;
+            case b:
+              h = (r - g) / d + 4;
+              break;
           }
           h /= 6;
         }
@@ -415,7 +442,7 @@
       }
 
       function hslToRgb(h, s, l) {
-        h = (h % 360 + 360) % 360 / 360;
+        h = (((h % 360) + 360) % 360) / 360;
         s = Math.max(0, Math.min(100, s)) / 100;
         l = Math.max(0, Math.min(100, l)) / 100;
         let r, g, b;
@@ -503,35 +530,16 @@
 
         switch (mode) {
           case "complementary":
-            elements = [
-              base,
-              rgbObjToHex(hslToRgb((hsl.h + 30 + hShift) % 360, Math.max(20, hsl.s - 10), Math.min(85, hsl.l + 10))),
-              rgbObjToHex(hslToRgb((hsl.h + 180 + hShift) % 360, Math.max(10, hsl.s - sShift), Math.min(90, hsl.l + lShift))),
-              rgbObjToHex(hslToRgb((hsl.h + 210 + hShift) % 360, hsl.s, Math.max(15, hsl.l - 15)))
-            ];
+            elements = [base, rgbObjToHex(hslToRgb((hsl.h + 30 + hShift) % 360, Math.max(20, hsl.s - 10), Math.min(85, hsl.l + 10))), rgbObjToHex(hslToRgb((hsl.h + 180 + hShift) % 360, Math.max(10, hsl.s - sShift), Math.min(90, hsl.l + lShift))), rgbObjToHex(hslToRgb((hsl.h + 210 + hShift) % 360, hsl.s, Math.max(15, hsl.l - 15)))];
             break;
           case "analogous":
-            elements = [
-              rgbObjToHex(hslToRgb((hsl.h - 35 - hShift) % 360, hsl.s, hsl.l)),
-              base,
-              rgbObjToHex(hslToRgb((hsl.h + 35 + hShift) % 360, hsl.s, hsl.l)),
-              rgbObjToHex(hslToRgb((hsl.h + 70 + hShift) % 360, Math.max(15, hsl.s - 15), Math.min(85, hsl.l + lShift)))
-            ];
+            elements = [rgbObjToHex(hslToRgb((hsl.h - 35 - hShift) % 360, hsl.s, hsl.l)), base, rgbObjToHex(hslToRgb((hsl.h + 35 + hShift) % 360, hsl.s, hsl.l)), rgbObjToHex(hslToRgb((hsl.h + 70 + hShift) % 360, Math.max(15, hsl.s - 15), Math.min(85, hsl.l + lShift)))];
             break;
           case "triadic":
-            elements = [
-              base,
-              rgbObjToHex(hslToRgb((hsl.h + 120 + hShift) % 360, Math.max(10, hsl.s - sShift), hsl.l)),
-              rgbObjToHex(hslToRgb((hsl.h + 240 - hShift) % 360, hsl.s, Math.max(10, hsl.l - lShift)))
-            ];
+            elements = [base, rgbObjToHex(hslToRgb((hsl.h + 120 + hShift) % 360, Math.max(10, hsl.s - sShift), hsl.l)), rgbObjToHex(hslToRgb((hsl.h + 240 - hShift) % 360, hsl.s, Math.max(10, hsl.l - lShift)))];
             break;
           case "tetradic":
-            elements = [
-              base,
-              rgbObjToHex(hslToRgb((hsl.h + 90 + hShift) % 360, hsl.s, hsl.l)),
-              rgbObjToHex(hslToRgb((hsl.h + 180 + hShift) % 360, Math.max(10, hsl.s - sShift), hsl.l)),
-              rgbObjToHex(hslToRgb((hsl.h + 270 + hShift) % 360, hsl.s, Math.max(10, hsl.l - lShift)))
-            ];
+            elements = [base, rgbObjToHex(hslToRgb((hsl.h + 90 + hShift) % 360, hsl.s, hsl.l)), rgbObjToHex(hslToRgb((hsl.h + 180 + hShift) % 360, Math.max(10, hsl.s - sShift), hsl.l)), rgbObjToHex(hslToRgb((hsl.h + 270 + hShift) % 360, hsl.s, Math.max(10, hsl.l - lShift)))];
             break;
           case "monochromatic":
             const vL1 = Math.max(10, (hsl.l + 15 + lShift) % 90);
@@ -539,13 +547,7 @@
             const vL3 = Math.max(5, (hsl.l - 20 - lShift + 100) % 90);
             const vL4 = Math.max(5, (hsl.l - 45 - lShift + 100) % 90);
 
-            elements = [
-              rgbObjToHex(hslToRgb(hsl.h, Math.max(10, hsl.s - sShift), vL1)),
-              rgbObjToHex(hslToRgb(hsl.h, hsl.s, vL2)),
-              base,
-              rgbObjToHex(hslToRgb(hsl.h, Math.max(10, hsl.s - 15), vL3)),
-              rgbObjToHex(hslToRgb(hsl.h, hsl.s, vL4))
-            ];
+            elements = [rgbObjToHex(hslToRgb(hsl.h, Math.max(10, hsl.s - sShift), vL1)), rgbObjToHex(hslToRgb(hsl.h, hsl.s, vL2)), base, rgbObjToHex(hslToRgb(hsl.h, Math.max(10, hsl.s - 15), vL3)), rgbObjToHex(hslToRgb(hsl.h, hsl.s, vL4))];
             break;
         }
 
@@ -554,7 +556,7 @@
 
       function render(colors) {
         container.innerHTML = "";
-        colors.forEach(color => {
+        colors.forEach((color) => {
           const rgb = hexToRgb(color);
           const card = document.createElement("div");
           card.className = "color-card";
@@ -619,7 +621,7 @@
       });
 
       exportBtn.addEventListener("click", () => {
-        const targetNodes = Array.from(document.querySelectorAll(".color-swatch")).map(el => el.getAttribute("data-value"));
+        const targetNodes = Array.from(document.querySelectorAll(".color-swatch")).map((el) => el.getAttribute("data-value"));
         const dumpData = {
           generator: "One File Tools Palette System",
           schemeSelected: schemeSelect.value,
